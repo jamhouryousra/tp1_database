@@ -84,6 +84,23 @@ CREATE INDEX IF NOT EXISTS idx_jeux_donnees_id_contrat ON JEUX_DONNEES(id_contra
 CREATE INDEX IF NOT EXISTS idx_participation_id_projet ON PARTICIPATION_PROJET(id_projet);
 
 
+-- Index sur la date de début des projets (filtre WHERE date_debut >= '2018-01-01')
+CREATE INDEX IF NOT EXISTS idx_projets_date_debut ON PROJETS(date_debut);
+
+-- Index composite sur les dates des jeux de données (calcul délai)
+CREATE INDEX IF NOT EXISTS idx_jeux_donnees_dates ON JEUX_DONNEES(date_creation, date_depot);
+
+-- Index partiel sur date_depot (filtre WHERE date_depot IS NOT NULL)
+CREATE INDEX IF NOT EXISTS idx_jeux_donnees_date_depot ON JEUX_DONNEES(date_depot) WHERE date_depot IS NOT NULL;
+
+-- Index sur clé étrangère (JOIN CONTRATS-PROJETS)
+CREATE INDEX IF NOT EXISTS idx_contrats_id_projet ON CONTRATS(id_projet);
+
+-- Index sur clé étrangère (JOIN JEUX_DONNEES-CONTRATS)
+CREATE INDEX IF NOT EXISTS idx_jeux_donnees_id_contrat ON JEUX_DONNEES(id_contrat);
+
+-- Index sur clé étrangère (JOIN PARTICIPATION_PROJET-PROJETS)
+CREATE INDEX IF NOT EXISTS idx_participation_id_projet ON PARTICIPATION_PROJET(id_projet);
 -- ============================================
 -- RE-TESTS APRÈS INDEX
 -- ============================================
@@ -107,21 +124,7 @@ ORDER BY pr.acronyme, annee;
 
 SELECT '========== APRÈS INDEX : VERSION 3 (SELECT ET VIEW) ==========' AS titre;
 EXPLAIN ANALYZE SELECT * FROM R1_VERSION1_INDEXED;
--- ============================================
--- RÉSULTATS À NOTER
--- ============================================
-/*
-AVANT INDEX :
-- VERSION 1 (VUE) : ___ms
-- VERSION 2 (SELECT) : ___ms
 
-APRÈS INDEX :
-- VERSION 1 (VUE) : ___ms
-- VERSION 2 (SELECT) : ___ms
-
-MEILLEURE VERSION : _______
-JUSTIFICATION : _______
-*/
 
 
 

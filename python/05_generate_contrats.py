@@ -66,8 +66,8 @@ def generate_contrats_sql(nb=120):
     with open('../sql/06_insert_contrats.sql', 'w', encoding='utf-8') as f:
         f.write(sql)
     
-    print("✅ Fichier généré : sql/06_insert_contrats.sql")
-    print(f"✅ {nb} contrats")
+    print("Fichier généré : sql/06_insert_contrats.sql")
+    print(f" {nb} contrats")
 
 if __name__ == "__main__":
     generate_contrats_sql(120)

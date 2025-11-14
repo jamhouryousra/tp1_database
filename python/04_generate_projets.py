@@ -90,8 +90,8 @@ def generate_projets_sql():
     with open('../sql/05_insert_projets.sql', 'w', encoding='utf-8') as f:
         f.write(sql)
     
-    print("✅ Fichier généré : sql/05_insert_projets.sql")
-    print(f"✅ {len(projets)} projets")
+    print(" Fichier généré : sql/05_insert_projets.sql")
+    print(f" {len(projets)} projets")
 
 if __name__ == "__main__":
     generate_projets_sql()

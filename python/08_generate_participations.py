@@ -42,8 +42,8 @@ def generate_participations_sql():
         f.write(sql)
 
     total_inserted = sum(participations.values())
-    print(f"✅ Fichier généré : sql/09_insert_participations.sql")
-    print(f"✅ {total_inserted} participations générées (max {capacite_max} par projet)")
+    print(f"Fichier généré : sql/09_insert_participations.sql")
+    print(f"{total_inserted} participations générées (max {capacite_max} par projet)")
     for pid, count in participations.items():
         print(f"   → Projet {pid}: {count} participants")
 

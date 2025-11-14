@@ -1,9 +1,9 @@
 -- ============================================
 -- SCRIPT 
 -- Écosystème de la Recherche Universitaire
-
-
 -- ============================================
+
+
 -- TABLE 1 : INSTITUTIONS
 -- ============================================
 CREATE TABLE INSTITUTIONS (
@@ -76,7 +76,6 @@ CREATE TABLE CONTRATS (
     date_debut DATE NOT NULL,
     date_fin DATE NOT NULL,
     id_projet INTEGER NOT NULL REFERENCES PROJETS(id_projet) ON DELETE CASCADE,
-    -- DMP (OBLIGATOIRE selon cahier des charges)
     statut_dmp VARCHAR(20) DEFAULT 'brouillon' CHECK (statut_dmp IN ('brouillon', 'soumis', 'validé')),
     date_validation_dmp DATE,
     lien_document_dmp VARCHAR(255),

@@ -160,18 +160,18 @@ SELECT * FROM R2_VERSION3;
 -- CRÉATION DES INDEX
 -- ============================================
 
-CREATE INDEX IF NOT EXISTS idx_publications_annee 
-ON PUBLICATIONS(EXTRACT(YEAR FROM date_publication));
+-- Index fonctionnel sur l'année de publication
+CREATE INDEX IF NOT EXISTS idx_publications_annee ON PUBLICATIONS(EXTRACT(YEAR FROM date_publication));
 
-CREATE INDEX IF NOT EXISTS idx_laboratoires_nom 
-ON LABORATOIRES(nom);
+-- Index sur le nom du laboratoire (filtre WHERE L.nom = 'Stella Mare')
+CREATE INDEX IF NOT EXISTS idx_laboratoires_nom ON LABORATOIRES(nom);
 
+-- Mise à jour des statistiques
 ANALYZE PUBLICATIONS;
 ANALYZE LABORATOIRES;
 ANALYZE AUTEURS_PUBLICATION;
 ANALYZE PARTICIPATION_PROJET;
 
-SELECT 'Index créés et tables analysées ✅' AS statut;
 
 -- ============================================
 -- RE-TESTS APRÈS INDEX
@@ -228,21 +228,3 @@ ORDER BY projet_titre;
 
 SELECT '========== APRÈS INDEX : VERSION 3 (VUE OPTIMISÉE) ==========' AS titre;
 EXPLAIN ANALYZE SELECT * FROM R2_VERSION3;
-
--- ============================================
--- RÉSULTATS À NOTER
--- ============================================
-/*
-AVANT INDEX :
-- VERSION 1 (VUE - NOT EXISTS) : ___ms
-- VERSION 2 (SELECT - MIN/HAVING) : ___ms
-- VERSION 3 (VUE - MIN/HAVING) : ___ms
-
-APRÈS INDEX :
-- VERSION 1 (VUE - NOT EXISTS) : ___ms (GAIN : ___%)
-- VERSION 2 (SELECT - MIN/HAVING) : ___ms (GAIN : ___%)
-- VERSION 3 (VUE - MIN/HAVING) : ___ms (GAIN : ___%)
-
-MEILLEURE VERSION : _______
-JUSTIFICATION : _______
-*/

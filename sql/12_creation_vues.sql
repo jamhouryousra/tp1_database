@@ -133,14 +133,3 @@ LEFT JOIN PARTICIPATION_PROJET PP ON C.id_chercheur = PP.id_chercheur
 LEFT JOIN PROJETS P ON PP.id_projet = P.id_projet
 GROUP BY C.id_chercheur, C.nom, C.prenom, C.email, C.statut, 
          C.discipline, L.nom, L.code_umr;
-
--- ============================================
--- VÉRIFICATION
--- ============================================
-SELECT 
-    table_name,
-    'Vue créée' AS statut
-FROM information_schema.views 
-WHERE table_schema = 'public' 
-  AND table_name LIKE 'vue_%'
-ORDER BY table_name;

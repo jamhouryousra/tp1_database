@@ -55,8 +55,8 @@ def generate_datasets_sql(nb=1100):
     with open('../sql/08_insert_datasets.sql', 'w', encoding='utf-8') as f:
         f.write(sql)
     
-    print("✅ Fichier généré : sql/08_insert_datasets.sql")
-    print(f"✅ {nb} datasets")
+    print(" Fichier généré : sql/08_insert_datasets.sql")
+    print(f" {nb} datasets")
 
 if __name__ == "__main__":
     generate_datasets_sql(1100)

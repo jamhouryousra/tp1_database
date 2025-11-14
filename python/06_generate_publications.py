@@ -43,8 +43,8 @@ def generate_publications_sql(nb=550):
     with open('../sql/07_insert_publications.sql', 'w', encoding='utf-8') as f:
         f.write(sql)
     
-    print("✅ Fichier généré : sql/07_insert_publications.sql")
-    print(f"✅ {nb} publications")
+    print(" Fichier généré : sql/07_insert_publications.sql")
+    print(f" {nb} publications")
 
 if __name__ == "__main__":
     generate_publications_sql(550)

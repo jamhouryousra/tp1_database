@@ -43,8 +43,8 @@ def generate_chercheurs_sql(nb=220):
     with open('../sql/04_insert_chercheurs.sql', 'w', encoding='utf-8') as f:
         f.write(sql)
     
-    print("✅ Fichier généré : sql/04_insert_chercheurs.sql")
-    print(f"✅ {nb} chercheurs")
+    print("Fichier généré : sql/04_insert_chercheurs.sql")
+    print(f" {nb} chercheurs")
 
 if __name__ == "__main__":
     generate_chercheurs_sql(220)

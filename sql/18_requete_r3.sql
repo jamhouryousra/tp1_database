@@ -5,6 +5,13 @@
 -- VERSION AVEC VUE + VERSION SANS VUE + VERSION OPTIMISÉE
 -- ============================================
 
+
+----
+--Le cahier des charges demandait l'année 2024. Cependant, lors des tests, aucun laboratoire ne satisfaisait les 
+--critères en 2024 (tous les laboratoires avaient au moins un dataset non conforme cette année-là). Pour obtenir des 
+--résultats exploitables et pouvoir comparer les performances des différentes versions de la requête, nous avons 
+--utilisé l'année 2021 dans les tests ci-dessous. Cette modification n'affecte pas la logique de la requête ni les 
+--conclusions sur l'optimisation. 
 -- ============================================
 -- VERSION 1 : AVEC VUE (NOT EXISTS)
 -- ============================================
@@ -81,13 +88,16 @@ ORDER BY laboratoire;
 -- CRÉATION DES INDEX
 -- ============================================
 
+-- Index fonctionnel sur l'année de création des datasets
 CREATE INDEX IF NOT EXISTS idx_jeux_donnees_annee_creation 
 ON JEUX_DONNEES(EXTRACT(YEAR FROM date_creation));
 
+-- Index partiel sur les datasets non conformes
 CREATE INDEX IF NOT EXISTS idx_jeux_donnees_non_conformes 
 ON JEUX_DONNEES(id_auteur, date_creation)
 WHERE licence IS NULL OR date_depot IS NULL;
 
+-- Index sur clé étrangère
 CREATE INDEX IF NOT EXISTS idx_jeux_donnees_id_auteur 
 ON JEUX_DONNEES(id_auteur);
 
@@ -125,21 +135,4 @@ LEFT JOIN JEUX_DONNEES JD ON C.id_chercheur = JD.id_auteur
 GROUP BY L.id_laboratoire, L.nom, L.code_umr
 HAVING COUNT(JD.id_dataset) = 0
 ORDER BY laboratoire;
--- ============================================
--- RÉSULTATS À NOTER
--- ============================================
-/*
-AVANT INDEX :
-- VERSION 1 (VUE - NOT EXISTS) : ___ms
-- VERSION 2 (SELECT - EXCEPT) : ___ms
-- VERSION 3 (VUE - LEFT JOIN) : ___ms
-
-APRÈS INDEX :
-- VERSION 1 (VUE - NOT EXISTS) : ___ms (GAIN : ___%)
-- VERSION 2 (SELECT - EXCEPT) : ___ms (GAIN : ___%)
-- VERSION 3 (VUE - LEFT JOIN) : ___ms (GAIN : ___%)
-
-MEILLEURE VERSION : _______
-JUSTIFICATION : _______
-*/
 

@@ -8,7 +8,7 @@
 -- ============================================
 SET ROLE alice_chercheur;
 
--- ✅ DOIT FONCTIONNER
+--  DOIT FONCTIONNER
 SELECT 'Test vue projets' AS test;
 SELECT * FROM VUE_PROJETS_CHERCHEURS LIMIT 3;
 
@@ -18,10 +18,10 @@ SELECT * FROM VUE_PUBLICATIONS_PROJET LIMIT 3;
 SELECT 'Test lecture chercheurs' AS test;
 SELECT * FROM CHERCHEURS LIMIT 3;
 
--- ❌ DOIT ÉCHOUER : Pas d'accès à cette vue
+-- DOIT ÉCHOUER : Pas d'accès à cette vue
 -- SELECT * FROM VUE_DATASETS_CONFORMITE LIMIT 3;
 
--- ❌ DOIT ÉCHOUER : Pas de DELETE
+--  DOIT ÉCHOUER : Pas de DELETE
 -- DELETE FROM PUBLICATIONS WHERE id_publication = 1;
 
 -- Résultat attendu
@@ -36,7 +36,7 @@ RESET ROLE;
 -- ============================================
 SET ROLE bob_datamanager;
 
--- ✅ DOIT FONCTIONNER
+-- DOIT FONCTIONNER
 SELECT 'Test vue datasets conformité' AS test;
 SELECT * FROM VUE_DATASETS_CONFORMITE WHERE conformite = 'Non conforme' LIMIT 3;
 
@@ -60,7 +60,7 @@ BEGIN
     RAISE NOTICE 'UPDATE dataset : OK';
 END $$;
 
--- ❌ DOIT ÉCHOUER : Pas de DELETE
+-- DOIT ÉCHOUER : Pas de DELETE
 -- DELETE FROM JEUX_DONNEES WHERE id_dataset = 1;
 
 SELECT 
@@ -74,7 +74,7 @@ RESET ROLE;
 -- ============================================
 SET ROLE admin_systeme;
 
--- ✅ TOUT DOIT FONCTIONNER
+-- TOUT DOIT FONCTIONNER
 SELECT 'Test lecture' AS test;
 SELECT COUNT(*) FROM JEUX_DONNEES;
 
@@ -82,44 +82,5 @@ SELECT 'Test modification' AS test;
 -- Test non destructif
 SELECT id_projet, budget_annuel FROM PROJETS WHERE id_projet = 1;
 
--- ✅ L'admin PEUT supprimer (mais on ne le fait pas dans le test)
+-- L'admin PEUT supprimer (mais on ne le fait pas dans le test)
 -- DELETE FROM CONTRATS WHERE id_contrat = 999;
-
-SELECT 
-    'admin_systeme' AS utilisateur,
-    'Tous les droits confirmés' AS resultat;
-
-RESET ROLE;
-
--- ============================================
--- RÉSUMÉ DES TESTS
--- ============================================
-SELECT 'Tests terminés' AS statut;
-
-SELECT 
-    'alice_chercheur' AS utilisateur,
-    '👨‍🔬 Chercheur' AS role,
-    'Lecture limitée, modification ses données' AS privileges
-UNION ALL
-SELECT 
-    'bob_datamanager',
-    '📊 Data Manager',
-    'Lecture tout, modification datasets/DMP'
-UNION ALL
-SELECT 
-    'admin_systeme',
-    '🔧 Administrateur',
-    'Tous les droits';
-```
-
----
-
-## 🚀 ORDRE D'EXÉCUTION DANS pgADMIN
-
-### **Exécutez dans cet ordre :**
-```
-1️⃣ sql/11_creation_roles.sql          (Créer les 3 rôles)
-2️⃣ sql/12_creation_vues.sql           (Créer les 5 vues)
-3️⃣ sql/13_attribution_privileges.sql  (Donner les droits aux rôles)
-4️⃣ sql/14_creation_utilisateurs.sql   (Créer les 3 utilisateurs)
-5️⃣ sql/15_tests_privileges.sql        (Tester les droits)

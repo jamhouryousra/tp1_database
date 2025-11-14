@@ -24,8 +24,8 @@ def generate_laboratoires_sql():
     with open('../sql/03_insert_laboratoires.sql', 'w', encoding='utf-8') as f:
         f.write(sql)
     
-    print("✅ Fichier généré : sql/03_insert_laboratoires.sql")
-    print(f"✅ {len(laboratoires)} laboratoires")
+    print("Fichier généré : sql/03_insert_laboratoires.sql")
+    print(f" {len(laboratoires)} laboratoires")
 
 if __name__ == "__main__":
     generate_laboratoires_sql()

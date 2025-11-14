@@ -70,10 +70,10 @@ LEFT JOIN PARTICIPATION_PROJET PP ON P.id_projet = PP.id_projet
 WHERE P.id_projet = 1
 GROUP BY P.id_projet, P.acronyme, P.capacite_max_participants;
 
--- Essayer d'insérer un nouveau participant (devrait échouer si capacité déjà atteinte)
+-- insérer un nouveau participant or la capacité déjà atteinte)
 INSERT INTO PARTICIPATION_PROJET (id_projet, id_chercheur, role_participant)
 VALUES (1, 109, 'Collaborateur');
--- Résultat attendu : ERREUR "Capacité maximale atteinte"
+-- Résultat : ERREUR "Capacité maximale atteinte"
 
 -- Restaurer la capacité normale
 UPDATE PROJETS SET capacite_max_participants = 30 WHERE id_projet = 1;
@@ -145,18 +145,17 @@ FROM CONTRATS
 WHERE statut_dmp IS NULL OR statut_dmp != 'validé' 
 LIMIT 1;
 
--- Essayer d'insérer un dataset "Déposé" (devrait échouer)
--- Remplacer [id_contrat_non_valide] et [id_chercheur] par des valeurs réelles
+-- insérer un dataset "Déposé" (devrait échouer)
 INSERT INTO JEUX_DONNEES (titre, description, id_contrat, id_auteur, 
     statut, date_creation, licence) VALUES (
     'Test Dataset Sans DMP','Ce dataset devrait être rejeté',2,
-    1,  -- ID chercheur existant
+    1,  
     'déposé', 
     CURRENT_DATE,
     'CC-BY-4.0'
 );
 
--- Résultat attendu : ERREUR "DMP doit être validé"
+-- Résultat  : ERREUR "DMP doit être validé"
 
 
 -- ============================================
@@ -355,7 +354,7 @@ LIMIT 10;
 -- PROCÉDURE 4 : Archivage des Contrats Échus
 -- ============================================
 
--- Créer la table d'archives si elle n'existe pas
+-- Créer la table d'archives 
 CREATE TABLE IF NOT EXISTS CONTRATS_ARCHIVES (
     LIKE CONTRATS INCLUDING ALL
 );
@@ -375,7 +374,7 @@ BEGIN
     -- Insérer les contrats échus dans la table d'archives
     INSERT INTO CONTRATS_ARCHIVES (
         id_contrat, 
-        type_financement,    -- ✅ CORRIGÉ
+        type_financement,    
         financeur, 
         intitule, 
         montant, 
@@ -384,9 +383,9 @@ BEGIN
         id_projet, 
         statut_dmp, 
         date_validation_dmp, 
-        lien_document_dmp,   -- ✅ CORRIGÉ
-        reference_contrat,   -- ✅ AJOUTÉ
-        montant_consomme,    -- ✅ AJOUTÉ
+        lien_document_dmp,   
+        reference_contrat,   
+        montant_consomme,  
         date_archivage
     )
     SELECT 
@@ -421,7 +420,7 @@ $$;
 -- Test PROCÉDURE 4
 SELECT '========== TEST PROCÉDURE 4 : Archivage Contrats ==========' AS test;
 
--- Voir les contrats échus (avant 2023)
+-- Voir les contrats échus (avant 2025)
 SELECT 
     id_contrat,
     intitule,
@@ -461,5 +460,5 @@ INSERT INTO CONTRATS SELECT * FROM CONTRATS_BACKUP;
 DROP TABLE CONTRATS_BACKUP;
 
 SELECT '========================================' AS separateur;
-SELECT '       ✅ PARTIE 5 TERMINÉE            ' AS titre;
+SELECT '       PARTIE 5 TERMINÉE            ' AS titre;
 SELECT '========================================' AS separateur;

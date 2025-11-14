@@ -27,8 +27,8 @@ def generate_institutions_sql():
     with open('../sql/02_insert_institutions.sql', 'w', encoding='utf-8') as f:
         f.write(sql)
     
-    print("✅ Fichier généré : sql/02_insert_institutions.sql")
-    print(f"✅ {len(institutions)} institutions")
+    print(" Fichier généré : sql/02_insert_institutions.sql")
+    print(f" {len(institutions)} institutions")
 
 if __name__ == "__main__":
     generate_institutions_sql()

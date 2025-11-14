@@ -24,7 +24,7 @@ def generate_auteurs_sql():
     with open('../sql/10_insert_auteurs.sql', 'w', encoding='utf-8') as f:
         f.write(sql)
     
-    print("✅ Fichier généré : sql/10_insert_auteurs.sql")
+    print("Fichier généré : sql/10_insert_auteurs.sql")
 
 if __name__ == "__main__":
     generate_auteurs_sql()

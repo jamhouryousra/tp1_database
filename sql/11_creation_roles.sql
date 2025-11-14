@@ -23,18 +23,3 @@ CREATE ROLE role_administrateur NOLOGIN;
 
 COMMENT ON ROLE role_administrateur IS 
 'Administrateur : Accès complet sur toutes les tables.';
-
--- ============================================
--- VÉRIFICATION
--- ============================================
-SELECT 
-    rolname AS role_name, 
-    rolcanlogin AS can_login,
-    CASE 
-        WHEN rolname = 'role_administrateur' THEN 'Administrateur'
-        WHEN rolname = 'role_data_manager' THEN 'Data Manager'
-        WHEN rolname = 'role_chercheur' THEN 'Chercheur'
-    END AS description
-FROM pg_roles 
-WHERE rolname LIKE 'role_%'
-ORDER BY rolname;
