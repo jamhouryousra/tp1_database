@@ -23,4 +23,4 @@ psql -U postgres -d projet_database -f sql/01_creation_schema.sql
 
 ## Auteurs
 - JAMHOUR Yousra et KARKACHE El Mehdi et WAHAB Mohamed
-- M1 DFS-DE 2025-2026#
+- M1 DFS-DENG 2025-2026#
